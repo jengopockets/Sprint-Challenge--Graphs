@@ -10,8 +10,8 @@ world = World()
 
 
 # You may uncomment the smaller graphs for development and testing purposes.
-map_file = "maps/test_line.txt"
-# map_file = "maps/test_cross.txt"
+# map_file = "maps/test_line.txt"
+map_file = "maps/test_cross.txt"
 # map_file = "maps/test_loop.txt"
 # map_file = "maps/test_loop_fork.txt"
 # map_file = "maps/main_maze.txt"
@@ -43,15 +43,16 @@ def find_traversal(graph):
         for move, next_room in possible_moves.items():
             if next_room not in visited:
                 next_moves.append(next_room)
-            if len(next_moves) > 0:
-                room = next_moves[0]
-                path.append(room)
-            else:
-                room = path[-2]
-                path.pop()
-        if next_room == room:
-            traversal_path.append(move)
-            print("traversal", traversal_path)
+        if len(next_moves) > 0:
+            room = next_moves[0]
+            path.append(room)
+        else:
+            room = path[-2]
+            path.pop()
+        for move, next_room in possible_moves.items():
+            if next_room == room:
+                traversal_path.append(move)
+                print("traversal", traversal_path)
 
 
         
