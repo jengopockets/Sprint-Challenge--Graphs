@@ -31,26 +31,38 @@ player = Player(world.starting_room)
 traversal_path = []
 
 def find_traversal(graph):
-    stack = Stack()
-    stack.push(0)
+    #Use a stack to keep track of the path
+    path = Stack()
+    #Set start to 0
+    path.push(0)
+    #Set for visited
     visited = set()
-    # print("graph", graph)
-    # print("starting room", world.starting_room)
+
+    # Check if length of visited is less than length of graph
     while len(visited) < len(graph):
-        queue = Queue()
-        current = stack.stack[-1]
+        #Use another stack to keep track of posibble next moves
+        next_moves = Stack()
+        #Set the current room
+        current = path.stack[-1]
+        #Add current room to visited
         visited.add(current)
+        #Check for possible moves in current room
         possible_moves = graph[current][1]
         
+        #Loop through possible moves
         for move, next_room in possible_moves.items():
+            #Check if rooms have been visited or not
             if next_room not in visited:
-                queue.enqueue(next_room)
-        if queue.size() > 0:
-            room = queue.queue[0]
-            stack.push(room)
+                #If not add to next moves stack
+                next_moves.push(next_room)
+        #If next move push it to path otherwise remove it from path and set the room traversal
+        if next_moves.size() > 0:
+            room = next_moves.stack[0]
+            path.push(room)
         else:
-            room = stack.stack[-2]
-            stack.pop()
+            room = path.stack[-2]
+            path.pop()
+        #Loop through rooms if the next room is the traversal room append it to traversal.    
         for move, next_room in possible_moves.items():
             if next_room == room:
                 traversal_path.append(move)
